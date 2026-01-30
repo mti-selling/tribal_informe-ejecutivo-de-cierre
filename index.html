@@ -1,1 +1,614 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Ejecutivo de Cierre de Proyecto | MTI Selling & Tribal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Paleta Oficial MTI Selling
+                        mti: {
+                            teal: '#1FA6A8',   // Principal
+                            orange: '#F05A28', // Acento
+                            dark: '#2B2B2B',   // Texto Principal
+                            bg: '#F4F6F8',     // Fondos Suaves
+                            light: '#E8F6F6',  // Fondo muy claro teal
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #2B2B2B; }
+        section { scroll-margin-top: 100px; }
+        .nav-link { position: relative; transition: all 0.3s ease; }
+        .nav-link:hover { color: #1FA6A8; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0; background-color: #1FA6A8; transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #1FA6A8; font-weight: 700; }
+        .nav-link.active::after { width: 100%; }
+        .bar-anim { animation: growBar 1s ease-out forwards; transform-origin: bottom; }
+        @keyframes growBar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Imprimir */
+        @media print {
+            header, #download-btn, footer { display: none !important; }
+            body { background-color: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .pt-28 { padding-top: 20px !important; }
+            section { page-break-inside: avoid; margin-bottom: 40px !important; border: 1px solid #eee !important; }
+            .accordion-content { display: block !important; max-height: none !important; opacity: 1 !important; }
+            .accordion-icon { display: none !important; }
+        }
+        .accordion-content { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; max-height: 0; overflow: hidden; opacity: 0; }
+        .accordion-content.open { opacity: 1; }
+    </style>
+</head>
+<body class="bg-slate-50 antialiased">
+
+    <!-- MENÚ -->
+    <header class="fixed top-0 w-full bg-white shadow-sm z-50 border-b border-gray-100 print:hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 text-mti-dark font-bold text-lg tracking-tight flex items-center gap-4">
+                    Reporte de Cierre
+                </div>
+                <div class="flex items-center gap-6">
+                    <nav class="hidden md:flex space-x-6 lg:space-x-8 text-sm font-medium text-gray-500" id="main-nav">
+                        <a href="#objetivo" class="nav-link active">Objetivo y alcance</a>
+                        <a href="#icp" class="nav-link">ICP</a>
+                        <a href="#perfil" class="nav-link">Perfil</a>
+                        <a href="#timeline" class="nav-link">Timeline</a>
+                        <a href="#campanas" class="nav-link">Campañas</a>
+                        <a href="#iqls-leads" class="nav-link">IQLs-Leads</a>
+                    </nav>
+                    <button id="download-btn" class="hidden md:flex items-center gap-2 bg-mti-teal text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-teal-600 transition-colors shadow-sm cursor-pointer select-none">
+                        <i class="fa-solid fa-file-pdf"></i> Descargar
+                    </button>
+                </div>
+                <div class="md:hidden text-mti-dark"><i class="fa-solid fa-bars text-xl"></i></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="pt-28 pb-6 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-900 rounded-xl px-6 py-2 shadow-lg mb-8">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+                    <div class="w-64 h-24 flex items-center justify-center flex-shrink-0">
+                        <img src="mti-logo.png" alt="MTI Selling" class="max-h-full max-w-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                        <span class="hidden text-gray-500 text-xs">[mti-logo.png]</span>
+                    </div>
+                    <div class="text-center flex-grow mx-4 border-t border-gray-700 pt-4 md:border-t-0 md:pt-0 w-full md:w-auto">
+                        <h2 class="text-lg md:text-2xl font-light text-white tracking-wide">Presentación de Resultados</h2>
+                        <div class="mt-2 w-12 h-1 bg-mti-orange mx-auto rounded-full"></div>
+                    </div>
+                    <div class="w-80 h-32 flex items-center justify-center flex-shrink-0">
+                        <img src="Logo Tribal.png" alt="Tribal" class="max-h-full max-w-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                        <span class="hidden text-gray-400 text-sm font-bold">[Logo Tribal.png]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-16">
+
+        <!-- 1. OBJETIVO Y ALCANCE -->
+        <section id="objetivo" class="animate-fade-in scroll-mt-28 bg-white rounded-3xl shadow-lg border border-gray-100 p-6 md:p-8 relative overflow-hidden">
+             <!-- Decoración -->
+             <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-mti-teal to-teal-600"></div>
+             
+             <div class="flex items-center gap-3 mb-6">
+                 <div class="w-10 h-10 rounded-full bg-mti-teal flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-bullseye text-lg"></i></div>
+                 <h2 class="text-3xl font-bold text-mti-dark">Objetivo y Alcance</h2>
+             </div>
+             
+             <!-- KPIs -->
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                 <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 flex flex-col justify-center">
+                     <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Meta del Proyecto</h3>
+                     <div class="flex items-baseline gap-2">
+                         <span class="text-4xl font-bold text-mti-dark">15</span>
+                         <span class="text-sm text-gray-500 font-medium">IQLs</span>
+                     </div>
+                 </div>
+                 <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 flex flex-col justify-center">
+                     <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Duración</h3>
+                     <div class="flex items-baseline gap-2">
+                         <span class="text-4xl font-bold text-mti-dark">3</span>
+                         <span class="text-sm text-gray-500 font-medium">Meses</span>
+                     </div>
+                 </div>
+                 <div class="bg-green-50 p-5 rounded-xl border border-green-200 flex flex-col justify-center relative overflow-hidden">
+                     <div class="absolute right-0 top-0 p-3 opacity-10"><i class="fa-solid fa-trophy text-5xl text-green-600"></i></div>
+                     <h3 class="text-xs font-bold text-green-700 uppercase tracking-wider mb-1">Cumplimiento</h3>
+                     <div class="flex flex-col">
+                         <div class="flex items-baseline gap-2">
+                             <span class="text-2xl font-bold text-green-600">133%</span>
+                             <span class="text-xs text-green-600 uppercase font-bold">de la meta</span>
+                         </div>
+                         <div class="mt-2">
+                             <span class="text-6xl font-bold text-green-700 tracking-tighter leading-none">20</span>
+                             <span class="text-sm font-bold text-green-700 block -mt-1">IQLs Logrados</span>
+                         </div>
+                     </div>
+                     <div class="w-full bg-green-200/50 rounded-full h-1.5 mt-4 relative z-10">
+                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 100%"></div>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Dashboard -->
+             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+                 <!-- Gráfico -->
+                 <div class="lg:col-span-6 bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col">
+                     <div class="flex justify-between items-center mb-6">
+                         <h3 class="font-bold text-mti-dark text-lg">Evolución de IQLs</h3>
+                         <div class="flex items-center gap-2">
+                             <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded border border-gray-100">Prom: 6.3</span>
+                         </div>
+                     </div>
+                     <div class="flex-grow flex items-end justify-between h-56 w-full px-4 mb-4 relative border-b border-gray-100 pb-2">
+                         <div class="absolute w-full border-t border-dashed border-gray-300 bottom-[57%] left-0 z-0"></div>
+                         <!-- Nov -->
+                         <div class="flex flex-col items-center justify-end h-full z-10 w-1/4 group">
+                             <span class="text-sm font-bold mb-1 text-mti-dark">6</span>
+                             <div class="w-full bg-mti-teal hover:bg-teal-600 transition-colors rounded-t-md shadow-sm bar-anim" style="height: 54%;"></div>
+                             <span class="text-xs text-gray-500 mt-2 font-medium">Nov</span>
+                         </div>
+                         <!-- Dic -->
+                         <div class="flex flex-col items-center justify-end h-full z-10 w-1/4 group">
+                             <span class="text-sm font-bold mb-1 text-mti-dark">3</span>
+                             <div class="w-full bg-mti-teal hover:bg-teal-600 transition-colors rounded-t-md shadow-sm bar-anim" style="height: 27%;"></div>
+                             <span class="text-xs text-gray-500 mt-2 font-medium">Dic</span>
+                         </div>
+                         <!-- Ene -->
+                         <div class="flex flex-col items-center justify-end h-full z-10 w-1/4 group relative">
+                             <div class="absolute -top-8 bg-mti-orange text-white text-[9px] font-bold px-2 py-0.5 rounded shadow-sm mb-1 animate-bounce">Pick</div>
+                             <span class="text-sm font-bold mb-1 text-mti-dark">11</span>
+                             <div class="w-full bg-gradient-to-t from-mti-teal to-teal-500 rounded-t-md shadow-lg bar-anim" style="height: 100%;"></div>
+                             <span class="text-xs text-gray-800 mt-2 font-bold">Ene</span>
+                         </div>
+                     </div>
+                     <div class="bg-indigo-50 border-l-4 border-indigo-500 p-3 rounded-r-lg mt-auto flex items-start gap-3">
+                         <div class="text-indigo-500 mt-0.5"><i class="fa-solid fa-chart-line"></i></div>
+                         <div><p class="text-xs font-bold text-indigo-800 uppercase mb-0.5">Curva de Crecimiento</p><p class="text-[11px] text-indigo-700 leading-tight">Estabilidad alcanzada en Enero (11 IQLs), velocidad crucero consolidada.</p></div>
+                     </div>
+                 </div>
+
+                 <!-- Base de Datos -->
+                 <div class="lg:col-span-6 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-lg border border-slate-700 p-6 flex flex-col relative overflow-hidden">
+                     <i class="fa-solid fa-database absolute -right-6 -bottom-6 text-9xl text-white opacity-5"></i>
+                     <div class="flex justify-between items-start mb-6 relative z-10">
+                         <div>
+                             <h3 class="text-mti-teal font-bold uppercase tracking-widest text-xs bg-white/5 px-2 py-0.5 rounded border border-white/10 mb-2 w-fit">DATA BASE</h3>
+                             <div class="inline-flex items-center gap-1.5 bg-green-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-[0_0_15px_rgba(34,197,94,0.6)] animate-pulse"><i class="fa-solid fa-check-double"></i> +171% SOBRECUMPLIMIENTO</div>
+                         </div>
+                         <div class="text-right">
+                             <span class="text-4xl font-bold text-white tracking-tight leading-none">1.084</span>
+                             <div class="flex flex-col items-end"><span class="text-[10px] text-gray-400 block mt-1">Contactos Totales</span><span class="text-[9px] text-gray-500 block">Obj. Inicial: 400</span></div>
+                         </div>
+                     </div>
+                     <div class="flex gap-4 mb-6 relative z-10 text-xs border-b border-white/10 pb-4">
+                         <div class="flex items-center gap-2 text-gray-300"><i class="fa-regular fa-envelope text-mti-teal"></i> <span><strong>1.057</strong> Correos</span></div>
+                         <div class="flex items-center gap-2 text-gray-300"><i class="fa-regular fa-building text-blue-400"></i> <span><strong>344</strong> Empresas</span></div>
+                     </div>
+                     <div class="grid grid-cols-2 gap-6 relative z-10">
+                        <!-- MX -->
+                        <div>
+                            <div class="flex items-center gap-2 mb-3"><span class="text-lg">🇲🇽</span><span class="text-xs font-bold text-white uppercase">México (805)</span></div>
+                            <ul class="space-y-2">
+                                <li class="flex justify-between items-center text-[10px]"><span class="text-gray-300">Retail</span><span class="text-mti-orange font-bold bg-white/10 px-1.5 py-0.5 rounded">462</span></li>
+                                <li class="flex justify-between items-center text-[10px]"><span class="text-gray-300">Banca/Fin.</span><span class="text-blue-400 font-bold bg-white/10 px-1.5 py-0.5 rounded">207</span></li>
+                                <li class="flex justify-between items-center text-[10px]"><span class="text-gray-300">Inmobiliario</span><span class="text-mti-teal font-bold bg-white/10 px-1.5 py-0.5 rounded">136</span></li>
+                            </ul>
+                        </div>
+                        <!-- CR -->
+                        <div class="border-l border-white/10 pl-4">
+                            <div class="flex items-center gap-2 mb-3"><span class="text-lg">🇨🇷</span><span class="text-xs font-bold text-white uppercase">C. Rica (279)</span></div>
+                            <ul class="space-y-2">
+                                <li class="flex justify-between items-center text-[10px]"><span class="text-gray-300">Banca/Fin.</span><span class="text-blue-400 font-bold bg-white/10 px-1.5 py-0.5 rounded">146</span></li>
+                                <li class="flex justify-between items-center text-[10px]"><span class="text-gray-300">Retail</span><span class="text-mti-orange font-bold bg-white/10 px-1.5 py-0.5 rounded">123</span></li>
+                                <li class="flex justify-between items-center text-[10px]"><span class="text-gray-300">Inmobiliario</span><span class="text-mti-teal font-bold bg-white/10 px-1.5 py-0.5 rounded">10</span></li>
+                            </ul>
+                        </div>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Entregables -->
+             <div class="bg-white border border-blue-100 rounded-xl p-5 shadow-sm">
+                 <h3 class="text-sm font-bold text-mti-dark mb-4 flex items-center gap-2"><i class="fa-solid fa-folder-open text-blue-600"></i> Entregables de Contenido</h3>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                     <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                         <div class="bg-purple-100 text-purple-600 p-2 rounded text-xs"><i class="fa-solid fa-microphone-lines"></i></div>
+                         <div><span class="text-[9px] font-bold text-purple-600 uppercase block mb-0.5">Interview</span><p class="text-xs text-gray-700 font-medium leading-snug">"Real Estate digital: ecosistemas que aprenden..."</p></div>
+                     </div>
+                     <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                         <div class="bg-teal-100 text-mti-teal p-2 rounded text-xs"><i class="fa-solid fa-book-open"></i></div>
+                         <div><span class="text-[9px] font-bold text-mti-teal uppercase block mb-0.5">E-book</span><p class="text-xs text-gray-700 font-medium leading-snug">"El futuro del sector inmobiliario es digital..."</p></div>
+                     </div>
+                     <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                         <div class="bg-blue-100 text-blue-600 p-2 rounded text-xs"><i class="fa-regular fa-newspaper"></i></div>
+                         <div><span class="text-[9px] font-bold text-blue-600 uppercase block mb-0.5">Article</span><p class="text-xs text-gray-700 font-medium leading-snug">"De la transformación digital a la evolución..."</p></div>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+        <!-- 2. ICP (COMPLETA) -->
+        <section id="icp" class="animate-fade-in scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-full bg-mti-teal flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-users-viewfinder text-lg"></i></div>
+                <div><h2 class="text-3xl font-bold text-mti-dark">Ideal Customer Profile (ICP) – Tribal</h2><p class="text-sm text-gray-500">Segmentación estratégica y perfilamiento de mercado</p></div>
+            </div>
+
+            <!-- Posicionamiento -->
+            <div class="bg-gradient-to-r from-slate-800 to-mti-dark text-white p-6 rounded-xl shadow-md mb-8 relative overflow-hidden">
+                <div class="absolute right-0 top-0 text-white opacity-5 text-9xl -mr-10 -mt-10 font-bold">ICP</div>
+                <div class="relative z-10">
+                    <h3 class="text-lg font-bold text-mti-teal mb-3 uppercase tracking-wide">Posicionamiento del ICP</h3>
+                    <p class="text-sm text-gray-200 leading-relaxed mb-4">Este perfil de cliente ideal (ICP) tiene como objetivo identificar y segmentar estratégicamente a <strong>empresas medianas y grandes</strong> con operaciones en <strong>México y Costa Rica</strong>, con alto potencial de contratación de servicios de transformación digital.</p>
+                    <div class="flex flex-col md:flex-row gap-4 text-sm border-t border-white/20 pt-4">
+                        <div class="flex-1"><span class="block font-bold text-mti-teal mb-1">Buscan Socios capaces de combinar:</span><ul class="list-disc list-inside text-gray-300 space-y-1"><li>Creatividad</li><li>Tecnología</li><li>Acompañamiento post-implementación</li></ul></div>
+                        <div class="flex-1 border-l border-white/20 pl-4"><span class="block font-bold text-mti-teal mb-1">Foco del Proyecto:</span><p class="text-gray-300">Posicionar a Tribal Worldwide como una <strong>boutique tecnológica ágil y cercana</strong>, frente a consultoras globales que ofrecen servicios más estandarizados.</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mercados y Segmentos -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
+                <!-- Países -->
+                <div class="md:col-span-3 bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-center text-center">
+                    <h4 class="text-xs font-bold text-gray-400 uppercase mb-4">1. Mercados Objetivo</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-center gap-2"><span class="text-2xl">🇲🇽</span> <span class="font-bold text-gray-700">México</span></div>
+                        <div class="flex items-center justify-center gap-2"><span class="text-2xl">🇨🇷</span> <span class="font-bold text-gray-700">Costa Rica</span></div>
+                    </div>
+                </div>
+                <!-- Segmento A -->
+                <div class="md:col-span-4 bg-white p-5 rounded-xl border-t-4 border-t-mti-teal shadow-sm relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-4"><h4 class="text-lg font-bold text-mti-dark">Segmento A</h4><span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase">Enterprise</span></div>
+                    <ul class="space-y-3 text-sm"><li class="flex justify-between border-b border-gray-100 pb-1"><span class="text-gray-500">Facturación</span><span class="font-bold">> USD 100M</span></li><li class="flex justify-between border-b border-gray-100 pb-1"><span class="text-gray-500">Ticket Prom.</span><span class="font-bold text-mti-teal">USD 100K</span></li><li class="flex justify-between border-b border-gray-100 pb-1"><span class="text-gray-500">LTV</span><span class="font-bold text-mti-teal">USD 500K</span></li><li class="flex justify-between"><span class="text-gray-500">Ciclo Venta</span><span class="font-bold text-gray-800">6-12 meses</span></li></ul>
+                </div>
+                <!-- Segmento B -->
+                <div class="md:col-span-5 bg-white p-5 rounded-xl border-t-4 border-t-mti-orange shadow-sm relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-4"><h4 class="text-lg font-bold text-mti-dark">Segmento B</h4><span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase">Mid-Market</span></div>
+                    <ul class="space-y-3 text-sm"><li class="flex justify-between border-b border-gray-100 pb-1"><span class="text-gray-500">Facturación</span><span class="font-bold">10M - 100M</span></li><li class="flex justify-between border-b border-gray-100 pb-1"><span class="text-gray-500">Ticket Prom.</span><span class="font-bold text-mti-orange">50K - 100K</span></li><li class="flex justify-between border-b border-gray-100 pb-1"><span class="text-gray-500">LTV</span><span class="font-bold text-mti-orange">USD 185K</span></li><li class="flex justify-between"><span class="text-gray-500">Ciclo Venta</span><span class="font-bold text-gray-800">3-4 meses</span></li></ul>
+                </div>
+            </div>
+
+            <!-- Empresa, Roles, Productos, Dolores -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Columna Izq -->
+                <div class="space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200"><h4 class="text-sm font-bold text-gray-800 uppercase mb-4 flex items-center gap-2"><i class="fa-regular fa-building text-mti-teal"></i> 3. Características Empresa</h4><ul class="space-y-2 text-sm text-gray-600"><li class="flex items-start gap-2"><i class="fa-solid fa-check text-mti-teal mt-1"></i> Regionales (MX/CR), multinacionales.</li><li class="flex items-start gap-2"><i class="fa-solid fa-check text-mti-teal mt-1"></i> Equipos internos de Transf. Digital.</li><li class="flex items-start gap-2"><i class="fa-solid fa-bullseye text-mti-orange mt-1"></i> <strong>Objetivos:</strong> +Ventas, -Costos, Mantenimiento.</li></ul></div>
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm"><h4 class="text-xs font-bold text-gray-400 uppercase mb-3">4. Industrias Prioritarias</h4><ul class="space-y-3"><li class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-building-columns"></i></div><span class="text-sm font-bold text-gray-700">Banca e Inmobiliarias</span></li><li class="flex items-center gap-3"><div class="w-8 h-8 rounded bg-orange-50 text-orange-600 flex items-center justify-center"><i class="fa-solid fa-burger"></i></div><span class="text-sm font-bold text-gray-700">Retail y Comida Rápida</span></li></ul></div>
+                    <div class="bg-green-50 p-6 rounded-xl border border-green-100"><h4 class="text-sm font-bold text-green-800 uppercase mb-4 flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> 8. Patrones Compra</h4><ul class="space-y-2 text-sm text-gray-700"><li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-600 mt-1"></i> Proveedores boutique, comunicación directa.</li><li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-600 mt-1"></i> Valoran flexibilidad y soporte continuo.</li><li class="flex items-start gap-2"><i class="fa-solid fa-check text-green-600 mt-1"></i> Alianzas largo plazo, no puntuales.</li></ul></div>
+                </div>
+                <!-- Columna Der -->
+                <div class="space-y-6">
+                    <div class="bg-teal-50/50 p-6 rounded-xl border border-teal-100"><h4 class="text-sm font-bold text-mti-teal uppercase mb-4 flex items-center gap-2"><i class="fa-solid fa-key"></i> Necesidades / Drivers</h4><ul class="space-y-3 text-sm text-gray-700"><li class="flex items-start gap-3"><i class="fa-solid fa-handshake text-mti-teal mt-1"></i> Continuidad y evolución, no solo entrega.</li><li class="flex items-start gap-3"><i class="fa-solid fa-users text-mti-teal mt-1"></i> Mejorar CX/UX e integración Mkt-Tech.</li><li class="flex items-start gap-3"><i class="fa-solid fa-mobile-screen text-mti-teal mt-1"></i> Canales personalizados (Apps, IA).</li></ul></div>
+                    <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm"><h4 class="text-xs font-bold text-gray-400 uppercase mb-3">2 & 7. Roles y Productos</h4><div class="mb-3"><p class="text-[10px] font-bold text-mti-teal uppercase mb-1">Decisores</p><p class="text-xs text-gray-600">CEO, Dir. Transf. Digital, Gte. Mercado, Gte. Canales.</p></div><div><p class="text-[10px] font-bold text-mti-teal uppercase mb-1">Productos</p><div class="flex flex-wrap gap-2"><span class="px-2 py-1 bg-gray-100 rounded text-xs">eCommerce</span><span class="px-2 py-1 bg-gray-100 rounded text-xs">Apps</span><span class="px-2 py-1 bg-gray-100 rounded text-xs">Lealtad</span><span class="px-2 py-1 bg-gray-100 rounded text-xs">Agentes IA</span><span class="px-2 py-1 bg-gray-100 rounded text-xs">Staff Aug.</span></div></div></div>
+                    <div class="bg-red-50 p-6 rounded-xl border border-red-100"><h4 class="text-sm font-bold text-red-700 uppercase mb-4 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> 5. Puntos de Dolor</h4><ul class="space-y-2 text-sm text-gray-700"><li class="flex items-start gap-2"><i class="fa-solid fa-xmark text-red-400 mt-1"></i> Mercado saturado sin continuidad.</li><li class="flex items-start gap-2"><i class="fa-solid fa-xmark text-red-400 mt-1"></i> Falta de soporte a largo plazo.</li><li class="flex items-start gap-2"><i class="fa-solid fa-xmark text-red-400 mt-1"></i> Rigidez de grandes consultoras.</li></ul></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PERFIL -->
+        <section id="perfil" class="animate-fade-in scroll-mt-24">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-10 h-10 rounded-full bg-mti-teal flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-user text-lg"></i></div>
+                <div><h2 class="text-3xl font-bold text-mti-dark">Perfil Ejecutor</h2><p class="text-sm text-gray-500">Análisis operativo y contenidos</p></div>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mb-8">
+                <div class="flex flex-col md:flex-row">
+                    <!-- Left -->
+                    <div class="md:w-1/3 bg-gray-50 p-6 flex flex-col items-center text-center border-b md:border-b-0 md:border-r border-gray-200 relative">
+                        <div class="absolute top-4 left-4 bg-mti-teal text-white text-[10px] font-bold px-2 py-1 rounded uppercase">Liderazgo</div>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 flex items-center justify-center border-4 border-white shadow-md overflow-hidden">
+                             <img src="Alejandro foto.jpeg" alt="Alejandro" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="hidden bg-gray-300 w-full h-full flex items-center justify-center">Foto</div>
+                        </div>
+                        <h3 class="text-xl font-bold text-mti-dark mb-1">Alejandro (Jacobo) Mejía</h3>
+                        <p class="text-[11px] text-gray-600 font-bold leading-tight mb-2 px-2">Estrategia, Innovación y Tecnología Aplicada a Negocios | Líder en Transformación Digital</p>
+                        <div class="text-[10px] text-gray-500 mb-4 space-y-0.5">
+                            <p class="font-medium text-mti-teal">Tribal Worldwide Guatemala</p>
+                            <p>OBS Business School</p>
+                            <p>Guatemala, Guatemala</p>
+                        </div>
+                        <div class="text-left bg-white p-4 rounded-lg border border-gray-100 shadow-sm w-full mb-4 flex-grow">
+                            <h4 class="text-xs font-bold text-mti-dark uppercase mb-2 border-b border-gray-100 pb-1">Acerca de</h4>
+                            <p class="text-[10px] text-gray-600 leading-relaxed text-justify mb-2">Cuento con cerca de <strong>25 años de experiencia</strong> en múltiples verticales, combinando conocimientos en tecnología, negocio y estrategia. He liderado iniciativas de transformación digital, asesorando a clientes en la adopción de plataformas digitales, IA y modelos omnicanal.</p>
+                            <p class="text-[10px] text-gray-600 leading-relaxed text-justify">Mi especialidad radica en la creación de soluciones escalables que alinean tecnología con objetivos de negocio, asegurando innovación sostenible y crecimiento rentable.</p>
+                        </div>
+                        <div class="bg-white px-4 py-1.5 rounded-full border border-gray-200 text-xs font-bold text-gray-600 shadow-sm mt-auto"><i class="fa-brands fa-linkedin mr-1 text-blue-600"></i> 1,199 Seguidores</div>
+                    </div>
+                    <!-- Right -->
+                    <div class="md:w-2/3 p-8 flex flex-col gap-8">
+                        <!-- Funnel -->
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-400 uppercase mb-4 border-b border-gray-100 pb-2">Funnel de Conversión</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                <div class="text-center p-3 bg-gray-50 rounded-lg border border-gray-100"><span class="block text-3xl font-bold text-mti-dark">24%</span><span class="text-[10px] text-gray-500 uppercase font-bold">Aceptación</span></div>
+                                <div class="text-center p-3 bg-gray-50 rounded-lg border border-gray-100"><span class="block text-3xl font-bold text-mti-dark">36%</span><span class="text-[10px] text-gray-500 uppercase font-bold">Respuesta</span></div>
+                                <div class="text-center p-3 bg-teal-50 border border-teal-100 rounded-lg shadow-sm"><span class="block text-3xl font-bold text-mti-teal">10%</span><span class="text-[10px] text-teal-600 uppercase font-bold">Interés</span></div>
+                                <div class="text-center p-3 bg-white border border-mti-orange/30 rounded-lg shadow-sm"><span class="block text-3xl font-bold text-mti-orange">20</span><span class="text-[10px] text-gray-500 uppercase font-bold">Total IQLs</span></div>
+                            </div>
+                        </div>
+                        <!-- Branding -->
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-400 uppercase mb-4 border-b border-gray-100 pb-2">Rendimiento Marca Personal (90 Días)</h4>
+                            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 flex flex-col sm:flex-row gap-6">
+                                <div class="flex-1 flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-green-50 text-green-700 flex items-center justify-center text-xl border border-green-100"><i class="fa-solid fa-eye"></i></div>
+                                    <div><p class="text-xs text-gray-500 uppercase font-bold">Impresiones</p><div class="flex items-baseline gap-2"><span class="text-2xl font-bold text-gray-800">13.593</span><span class="text-xs font-bold text-green-600 bg-green-100 px-1.5 py-0.5 rounded border border-green-200"><i class="fa-solid fa-arrow-trend-up"></i> 5,3%</span></div></div>
+                                </div>
+                                <div class="hidden sm:block w-px bg-gray-200"></div>
+                                <div class="flex-1 flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-full bg-green-50 text-green-700 flex items-center justify-center text-xl border border-green-100"><i class="fa-solid fa-share-nodes"></i></div>
+                                    <div><p class="text-xs text-gray-500 uppercase font-bold">Interacciones</p><div class="flex items-baseline gap-2"><span class="text-2xl font-bold text-gray-800">380</span><span class="text-xs font-bold text-green-600 bg-green-100 px-1.5 py-0.5 rounded border border-green-200"><i class="fa-solid fa-arrow-trend-up"></i> 31,1%</span></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Top Posts -->
+                        <div>
+                            <div class="flex justify-between items-end mb-4 border-b border-gray-100 pb-2"><h4 class="text-sm font-bold text-gray-400 uppercase">Top 3 Publicaciones</h4><span class="text-xs text-mti-teal font-medium"><i class="fa-solid fa-ranking-star mr-1"></i> Mayor Impacto</span></div>
+                            <div class="space-y-4">
+                                <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:border-mti-teal/50 transition-all group">
+                                    <div class="flex justify-between items-start mb-2"><div class="w-4/5"><span class="text-[10px] font-bold text-blue-500 uppercase mb-1 block">Evento / Networking</span><p class="text-sm font-bold text-gray-800 line-clamp-1">"Participación en ON Guatemala (AGEXPORT)"</p></div><div class="text-center"><span class="block text-lg font-bold text-green-600 group-hover:scale-110 transition-transform">47</span><span class="text-[9px] text-gray-400 uppercase">Interac.</span></div></div>
+                                    <div class="flex items-center gap-3 text-[10px] text-gray-400 mt-2 pt-2 border-t border-gray-50"><span>Hace 1 mes</span><span class="text-gray-300">|</span><span class="flex items-center gap-1"><i class="fa-solid fa-eye text-blue-500"></i> 1,471 Impresiones</span></div>
+                                </div>
+                                <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:border-mti-teal/50 transition-all group">
+                                    <div class="flex justify-between items-start mb-2"><div class="w-4/5"><span class="text-[10px] font-bold text-mti-teal uppercase mb-1 block">Historia Personal</span><p class="text-sm font-bold text-gray-800 line-clamp-1">"Cuando estudié Ingeniería en Sistemas..."</p></div><div class="text-center"><span class="block text-lg font-bold text-green-600 group-hover:scale-110 transition-transform">43</span><span class="text-[9px] text-gray-400 uppercase">Interac.</span></div></div>
+                                    <div class="flex items-center gap-3 text-[10px] text-gray-400 mt-2 pt-2 border-t border-gray-50"><span>Hace 2 meses</span><span class="text-gray-300">|</span><span class="flex items-center gap-1"><i class="fa-solid fa-eye text-blue-500"></i> 1,665 Impresiones</span></div>
+                                </div>
+                                <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:border-mti-teal/50 transition-all group">
+                                    <div class="flex justify-between items-start mb-2"><div class="w-4/5"><span class="text-[10px] font-bold text-purple-500 uppercase mb-1 block">Thought Leadership</span><p class="text-sm font-bold text-gray-800 line-clamp-1">"La tecnología transformando empresas..."</p></div><div class="text-center"><span class="block text-lg font-bold text-green-600 group-hover:scale-110 transition-transform">34</span><span class="text-[9px] text-gray-400 uppercase">Interac.</span></div></div>
+                                    <div class="flex items-center gap-3 text-[10px] text-gray-400 mt-2 pt-2 border-t border-gray-50"><span>Hace 2 meses</span><span class="text-gray-300">|</span><span class="flex items-center gap-1"><i class="fa-solid fa-eye text-blue-500"></i> 1,328 Impresiones</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. TIMELINE -->
+        <section id="timeline" class="animate-fade-in scroll-mt-24">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-full bg-mti-teal flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-timeline text-lg"></i></div>
+                <h2 class="text-3xl font-bold text-mti-dark">Timeline</h2>
+            </div>
+            <div class="relative pl-8 md:pl-0">
+                <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gray-200 transform md:-translate-x-1/2"></div>
+                <!-- Oct -->
+                <div class="relative mb-12">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="flex-1 w-full md:w-1/2 md:pr-12 md:text-right"><h3 class="text-lg font-bold text-mti-dark">OCTUBRE</h3><div class="text-xs font-semibold text-gray-500 mb-3">Setup</div></div>
+                        <div class="absolute left-[-5px] md:left-1/2 w-4 h-4 bg-gray-400 rounded-full border-4 border-white shadow-md transform md:-translate-x-1/2 z-10"></div>
+                        <div class="flex-1 w-full md:w-1/2 md:pl-12 mt-4 md:mt-0">
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm"><ul class="space-y-3 text-sm text-gray-600"><li><span class="font-bold text-mti-teal">17 Oct</span> Setup Inicial</li><li><span class="font-bold text-mti-teal">31 Oct</span> Inicio Ops + Config Correo</li></ul></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nov -->
+                <div class="relative mb-12">
+                    <div class="flex flex-col md:flex-row-reverse items-center">
+                        <div class="flex-1 w-full md:w-1/2 md:pl-12 md:text-left"><h3 class="text-lg font-bold text-mti-dark">NOVIEMBRE</h3><div class="text-xs font-semibold text-blue-600 mb-3">Activación</div></div>
+                        <div class="absolute left-[-5px] md:left-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white shadow-md transform md:-translate-x-1/2 z-10"></div>
+                        <div class="flex-1 w-full md:w-1/2 md:pr-12 mt-4 md:mt-0">
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm"><ul class="space-y-3 text-sm text-gray-600"><li><span class="font-bold text-blue-500">11 Nov</span> Conexión Herramienta + 3 Campañas LinkedIn</li></ul></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dic -->
+                <div class="relative mb-12">
+                    <div class="flex flex-col md:flex-row items-center">
+                        <div class="flex-1 w-full md:w-1/2 md:pr-12 md:text-right"><h3 class="text-lg font-bold text-mti-dark">DICIEMBRE</h3><div class="text-xs font-semibold text-purple-600 mb-3">Refuerzo</div></div>
+                        <div class="absolute left-[-5px] md:left-1/2 w-4 h-4 bg-purple-500 rounded-full border-4 border-white shadow-md transform md:-translate-x-1/2 z-10"></div>
+                        <div class="flex-1 w-full md:w-1/2 md:pl-12 mt-4 md:mt-0">
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm"><ul class="space-y-3 text-sm text-gray-600"><li><span class="font-bold text-purple-500">16 Dic</span> 2da Campaña LinkedIn + Email Inmob.</li></ul></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ene -->
+                <div class="relative">
+                    <div class="flex flex-col md:flex-row-reverse items-center">
+                        <div class="flex-1 w-full md:w-1/2 md:pl-12 md:text-left"><h3 class="text-lg font-bold text-mti-dark">ENERO</h3><div class="text-xs font-semibold text-green-600 mb-3">Cierre</div></div>
+                        <div class="absolute left-[-5px] md:left-1/2 w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-md transform md:-translate-x-1/2 z-10"></div>
+                        <div class="flex-1 w-full md:w-1/2 md:pr-12 mt-4 md:mt-0">
+                            <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm"><ul class="space-y-3 text-sm text-gray-600"><li><span class="font-bold text-green-600">19 Ene</span> Email Retail</li><li><span class="font-bold text-green-600">21 Ene</span> Comp. LinkedIn</li><li><span class="font-bold text-gray-400">26 Ene</span> Cierre Operativo</li></ul></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CAMPAÑAS -->
+        <section id="campanas" class="animate-fade-in scroll-mt-24">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-full bg-mti-teal flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-bullhorn text-lg"></i></div>
+                <h2 class="text-3xl font-bold text-mti-dark">Campañas Ejecutadas</h2>
+            </div>
+            
+            <!-- Estrategia -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-3 text-xl"><i class="fa-solid fa-comments"></i></div>
+                    <h3 class="text-sm font-bold text-gray-800 uppercase mb-2">Tono Conversacional</h3>
+                    <p class="text-xs text-gray-600">Mensajes personalizados para incentivar la confianza.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-orange-50 text-mti-orange rounded-full flex items-center justify-center mb-3 text-xl"><i class="fa-solid fa-seedling"></i></div>
+                    <h3 class="text-sm font-bold text-gray-800 uppercase mb-2">Nurturing Activo</h3>
+                    <p class="text-xs text-gray-600">Uso de material educativo previo a la gestión comercial.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-teal-50 text-mti-teal rounded-full flex items-center justify-center mb-3 text-xl"><i class="fa-solid fa-crosshairs"></i></div>
+                    <h3 class="text-sm font-bold text-gray-800 uppercase mb-2">Objetivo: IQL</h3>
+                    <p class="text-xs text-gray-600">Generar interés calificado para gestión de Tribal.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+                <!-- LinkedIn -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-xl border border-gray-200 shadow-sm flex flex-col">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100"><i class="fa-brands fa-linkedin text-blue-600 text-2xl"></i><h3 class="text-lg font-bold text-mti-dark">LinkedIn Outreach</h3></div>
+                    <div class="space-y-6 flex-grow">
+                        <div><h4 class="text-xs font-bold text-gray-400 uppercase mb-3">Estrategia</h4><ul class="space-y-2 text-sm text-gray-600"><li>Prospección automatizada.</li><li>Seguimiento manual <strong>BDR</strong>.</li></ul></div>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100"><h4 class="text-xs font-bold text-gray-400 uppercase mb-3">Secuencias</h4><div class="space-y-3"><div class="flex justify-between text-sm"><span class="text-gray-700">Cortas</span><span class="text-xs text-gray-500">3 msj / 1 msj</span></div><div class="flex justify-between text-sm"><span class="text-gray-700">Largas</span><span class="text-xs text-gray-500">Conversacionales</span></div></div></div>
+                        <div class="bg-orange-50 border border-orange-100 rounded-lg p-3 text-xs text-orange-800 flex items-start gap-2"><i class="fa-solid fa-triangle-exclamation mt-0.5 text-orange-500"></i><div><span class="font-bold block mb-1 uppercase">Punto de Atención:</span><p>No se contó con SDR/BDR para respuestas/posteos directos desde el perfil asignado. <strong>MTI ejecutó esta tarea</strong> para garantizar resultados.</p></div></div>
+                    </div>
+                </div>
+                <!-- Email -->
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white p-5 rounded-xl border-t-4 border-t-purple-500 shadow-sm"><h4 class="font-bold text-gray-800 mb-4">Inmobiliarias</h4><div class="space-y-3"><div class="flex justify-between text-xs"><span class="text-gray-500">Aperturas</span><span class="font-bold text-purple-600">21%</span></div><div class="w-full bg-gray-100 h-1.5 rounded-full"><div class="bg-purple-500 h-1.5 rounded-full" style="width: 21%"></div></div><div class="flex justify-between text-xs"><span class="text-gray-500">Clics</span><span class="font-bold text-purple-600">14%</span></div><div class="w-full bg-gray-100 h-1.5 rounded-full"><div class="bg-purple-400 h-1.5 rounded-full" style="width: 14%"></div></div></div><div class="bg-purple-50 p-3 rounded-lg text-center mt-4 text-xs font-bold text-purple-800">13 Leads derivados</div></div>
+                    <div class="bg-white p-5 rounded-xl border-t-4 border-t-mti-orange shadow-sm"><h4 class="font-bold text-gray-800 mb-4">Retail</h4><div class="space-y-3"><div class="flex justify-between text-xs"><span class="text-gray-500">Aperturas</span><span class="font-bold text-mti-orange">39%</span></div><div class="w-full bg-gray-100 h-1.5 rounded-full"><div class="bg-mti-orange h-1.5 rounded-full" style="width: 39%"></div></div><div class="flex justify-between text-xs"><span class="text-gray-500">Clics</span><span class="font-bold text-mti-orange">26%</span></div><div class="w-full bg-gray-100 h-1.5 rounded-full"><div class="bg-orange-300 h-1.5 rounded-full" style="width: 26%"></div></div></div><div class="bg-orange-50 p-3 rounded-lg text-center mt-4 text-xs font-bold text-orange-800">39 Leads derivados</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. IQLs-LEADS -->
+        <section id="iqls-leads" class="animate-fade-in scroll-mt-24">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-full bg-mti-orange flex items-center justify-center text-white shadow-md"><i class="fa-solid fa-filter-circle-dollar text-lg"></i></div>
+                <div><h2 class="text-3xl font-bold text-mti-dark">IQLs y Leads</h2><p class="text-sm text-gray-500">Desglose de oportunidades generadas y calidad del pipeline</p></div>
+            </div>
+
+            <!-- Top Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity"><i class="fa-solid fa-star text-6xl text-mti-orange"></i></div>
+                    <span class="text-xs font-bold text-mti-orange uppercase tracking-widest mb-2 bg-orange-50 px-3 py-1 rounded-full">Prioridad Alta</span>
+                    <span class="text-6xl font-bold text-mti-dark tracking-tighter">20</span>
+                    <div class="mt-2 text-center"><span class="block text-sm font-bold text-gray-700">IQLs</span></div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col items-center justify-center relative overflow-hidden group hover:shadow-md transition-all">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity"><i class="fa-solid fa-comments text-6xl text-blue-500"></i></div>
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 bg-blue-50 px-3 py-1 rounded-full">Seguimiento</span>
+                    <span class="text-6xl font-bold text-mti-dark tracking-tighter">81</span>
+                    <div class="mt-2 text-center"><span class="block text-sm font-bold text-gray-700">Leads Activos</span><span class="text-xs text-gray-500">Conversaciones + Clics Email</span></div>
+                </div>
+                <div class="bg-mti-dark text-white p-6 rounded-2xl shadow-xl flex flex-col items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-mti-teal/20 to-transparent"></div>
+                    <i class="fa-solid fa-layer-group absolute -bottom-4 -right-4 text-8xl text-white opacity-5"></i>
+                    <span class="text-xs font-bold text-mti-teal uppercase tracking-widest mb-2 border border-mti-teal/50 px-3 py-1 rounded-full">Pipeline Total</span>
+                    <span class="text-6xl font-bold text-white tracking-tighter">101</span>
+                    <p class="text-sm text-gray-400 mt-2">Oportunidades entregadas</p>
+                </div>
+            </div>
+
+            <!-- Detalle Empresas -->
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h3 class="text-lg font-bold text-gray-800 flex items-center gap-2"><i class="fa-solid fa-briefcase text-gray-400"></i> Empresas Calificadas (IQLs)</h3><span class="text-xs font-medium text-gray-500 bg-white px-3 py-1 rounded-full border border-gray-200 shadow-sm">Detalle por Mercado</span></div>
+                <div class="p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- MX -->
+                        <div>
+                            <div class="flex items-center gap-3 mb-6"><span class="text-3xl">🇲🇽</span><div><h4 class="text-xl font-bold text-mti-dark">México</h4><p class="text-xs text-gray-500">Principales cuentas generadas</p></div></div>
+                            <ul class="space-y-1.5">
+                                <!-- Banca / Financiero -->
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fa-solid fa-building-columns"></i></div><span class="font-bold text-gray-700 text-xs">Banco del Bajío</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Banca</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fa-solid fa-coins"></i></div><span class="font-bold text-gray-700 text-xs">Collection Management Group</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Financiero</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fa-solid fa-coins"></i></div><span class="font-bold text-gray-700 text-xs">Customer Intelligence Inc.</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Financiero</span>
+                                </li>
+
+                                <!-- Retail -->
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-dumbbell"></i></div><span class="font-bold text-gray-700 text-xs">Smart Fit México</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-bottle-water"></i></div><span class="font-bold text-gray-700 text-xs">Coca-Cola FEMSA</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-shop"></i></div><span class="font-bold text-gray-700 text-xs">Premium Ice</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-shop"></i></div><span class="font-bold text-gray-700 text-xs">7-Eleven México</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-bag-shopping"></i></div><span class="font-bold text-gray-700 text-xs">CLOE</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center text-[10px] group-hover:bg-gray-600 group-hover:text-white transition-colors"><i class="fa-solid fa-industry"></i></div><span class="font-bold text-gray-700 text-xs">Grupo Helvex</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail/Manuf.</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-plug"></i></div><span class="font-bold text-gray-700 text-xs">Asesor Eléctrico</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+
+                                <!-- Inmobiliario -->
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-teal-50 text-mti-teal flex items-center justify-center text-[10px] group-hover:bg-mti-teal group-hover:text-white transition-colors"><i class="fa-solid fa-house"></i></div><span class="font-bold text-gray-700 text-xs">Vinte</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Inmobiliario</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Columna CR -->
+                        <div class="lg:border-l lg:border-gray-100 lg:pl-12">
+                            <div class="flex items-center gap-3 mb-6"><span class="text-3xl">🇨🇷</span><div><h4 class="text-xl font-bold text-mti-dark">Costa Rica</h4><p class="text-xs text-gray-500">Principales cuentas generadas</p></div></div>
+                            <ul class="space-y-1.5">
+                                <!-- Banca -->
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fa-solid fa-building-columns"></i></div><span class="font-bold text-gray-700 text-xs">BAC Credomatic</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Banca</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fa-solid fa-building-columns"></i></div><span class="font-bold text-gray-700 text-xs">Banco Nacional</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Banca</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-[10px] group-hover:bg-blue-600 group-hover:text-white transition-colors"><i class="fa-solid fa-building-columns"></i></div><span class="font-bold text-gray-700 text-xs">CoopeJudicial R.L.</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Financiero</span>
+                                </li>
+
+                                <!-- Retail -->
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-pills"></i></div><span class="font-bold text-gray-700 text-xs">Grupo Farmanova Intermed</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-shop"></i></div><span class="font-bold text-gray-700 text-xs">GESSA</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-shop"></i></div><span class="font-bold text-gray-700 text-xs">Grupo Vargas</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-pills"></i></div><span class="font-bold text-gray-700 text-xs">Cía. Farmacéutica (COFASA)</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                                <li class="flex items-center justify-between p-2 rounded hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                                    <div class="flex items-center gap-3"><div class="w-6 h-6 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center text-[10px] group-hover:bg-orange-600 group-hover:text-white transition-colors"><i class="fa-solid fa-cart-shopping"></i></div><span class="font-bold text-gray-700 text-xs">PriceSmart / Futeca</span></div><span class="text-[9px] text-gray-400 font-medium uppercase">Retail</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 p-4 border-t border-gray-200 text-center"><p class="text-xs text-gray-500"><i class="fa-solid fa-circle-info mr-1 text-mti-teal"></i> Listado representativo de los <strong>20 IQL's</strong> generados.</p></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-mti-dark text-white py-12 mt-12"><div class="max-w-7xl mx-auto px-4 text-center"><p class="text-gray-400 text-sm mb-2">Informe Ejecutivo Confidencial</p><p class="font-semibold tracking-wide">MTI Selling & Tribal</p></div></footer>
+
+</body>
+</html>
